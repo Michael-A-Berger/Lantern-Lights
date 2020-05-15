@@ -1,0 +1,161 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8312356648855184368
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8312356648855184370}
+  - component: {fileID: 8312356648855184371}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8312356648855184370
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312356648855184368}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8312356648855184371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312356648855184368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3261a42c72114b54ea3986eb96dfcf0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipToPlayOnAwake: 
+  audioSources:
+  - name: Music for Manatees
+    clip: {fileID: 8300000, guid: 99a0132e9433fd245a35a3710b0e9e81, type: 3}
+    volume: 1
+    repeating: 1
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Nowhere Land
+    clip: {fileID: 8300000, guid: b9ab8550c2cba194cb81d947836faa71, type: 3}
+    volume: 1
+    repeating: 1
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Pixelland
+    clip: {fileID: 8300000, guid: eb6e884833b838b47976b234e0a076ef, type: 3}
+    volume: 1
+    repeating: 1
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Lantern Boost
+    clip: {fileID: 8300000, guid: 7ce3f5cf57bc22349a86a6e4011b26f0, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Menu Click
+    clip: {fileID: 8300000, guid: 5f5c2c8c79fca714bb34155baa7940d4, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Speed Barrier Break
+    clip: {fileID: 8300000, guid: 5dbd54c4f41b74447aa8b1171d11600b, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Player Death
+    clip: {fileID: 8300000, guid: fbeb5c2eb21a5a742bc458435229c8e8, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Level Complete
+    clip: {fileID: 8300000, guid: a098ea46dd9ce3640b1013fd0079f79a, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Moving Platform
+    clip: {fileID: 8300000, guid: ba252d98fa5b0fd40accdf6db7ec9b9c, type: 3}
+    volume: 0.5
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Player Respawn
+    clip: {fileID: 8300000, guid: 2425fb40a8569b14194554440bea9ae5, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Normal - Jump
+    clip: {fileID: 8300000, guid: 31cb03a31df18794db169da30fc923b2, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Normal - Midair Jump
+    clip: {fileID: 8300000, guid: 5d737e839a771dc47bd160e22cf48d53, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Normal - Landing
+    clip: {fileID: 8300000, guid: 550af09783c4ef2459a71d16090827db, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Normal - Running
+    clip: {fileID: 8300000, guid: 8a722f51ced21084f832876f4929c733, type: 3}
+    volume: 1
+    repeating: 1
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Water - Jump
+    clip: {fileID: 8300000, guid: b8278cc292599ba41b3db38f4aa88586, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Water - Landing
+    clip: {fileID: 8300000, guid: a31086db34ec2e8499ec8f20350249bb, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Water - Running
+    clip: {fileID: 8300000, guid: ae3c36912aa315a4395248f43544729f, type: 3}
+    volume: 1
+    repeating: 1
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Water - Enter
+    clip: {fileID: 8300000, guid: 46165b50ccea75047aaad35e3cd2283b, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
+  - name: Water - Exit
+    clip: {fileID: 8300000, guid: 98dff7e8ae0e27a438c5b479d4aca643, type: 3}
+    volume: 1
+    repeating: 0
+    startOnSceneLoad: 0
+    source: {fileID: 0}
