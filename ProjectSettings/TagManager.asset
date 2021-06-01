@@ -12,6 +12,7 @@ TagManager:
   - Checkpoint Trigger
   - Speed Barrier
   - Moving Platform
+  - Passthrough
   layers:
   - Default
   - TransparentFX

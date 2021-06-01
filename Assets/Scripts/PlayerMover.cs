@@ -39,6 +39,7 @@ public class PlayerMover : MonoBehaviour
     private Vector3 wandSpawnLocation = new Vector3(1, 0, 0);
     private bool inputEnabled = true;
     private bool grounded = false;
+    private bool ignorePassthrough = false;
 
     // Private Properties (Input)
     private float currentAxisX = 0f;
@@ -299,6 +300,14 @@ public class PlayerMover : MonoBehaviour
             rigid.velocity = new Vector2(rigid.velocity.x, lastVelocity.y);
         }
 
+        // IF the player is grounded AND they are pressing down...
+        if (grounded && currentAxisY == -1f)
+        {
+            // Letting the player fall through passthrough platforms
+            ignorePassthrough = true;
+            ReleaseFromPlatform();
+        }
+
         // =====================================
         // ========== WAVING THE WAND ==========
         // =====================================
@@ -537,6 +546,38 @@ public class PlayerMover : MonoBehaviour
                 audioMng.PlayAudio(currentMoveVars.landingSound);
         }
 
+        // IF the other collider is a Passthrough Platform...
+        if (other.gameObject.tag == "Passthrough")
+        {
+            // Getting the rotation direction of the passthrough platform
+            float platformAngle = other.transform.eulerAngles.z;
+            Vector2 passthroughNormal = Vector2.up;
+            passthroughNormal.x = -1 * Mathf.Sin((platformAngle / 180) * Mathf.PI);
+            passthroughNormal.y = Mathf.Cos((platformAngle / 180) * Mathf.PI);
+
+            // Getting the angle between the passthrough platform normal and the player velocity
+            float angleBetween = Vector2.SignedAngle(passthroughNormal, rigid.velocity.normalized);
+
+            // Determining if the passthrough platform should be treated as solid
+            if (!ignorePassthrough && Mathf.Abs(angleBetween) >= 90)
+            {
+                // Casting to the correct collider type
+                BoxCollider2D otherBox = (BoxCollider2D)other;
+
+                // Processing the platform as a proper platform
+                ProcessAsPlatform(otherBox, true);
+
+                // Setting the current velocity to not move in the direction of the passthrough normal
+                float scaleVal = Vector2.Dot(rigid.velocity, passthroughNormal) / Vector2.Dot(passthroughNormal, passthroughNormal);
+                rigid.velocity -= passthroughNormal * scaleVal;
+
+                // Playing the landing audio clip (assuming it's defined)
+                if (currentMoveVars.landingSound != string.Empty && !audioMng.IsPlaying(currentMoveVars.landingSound))
+                    audioMng.PlayAudio(currentMoveVars.landingSound);
+            }
+            /**/
+        }
+
         // IF the other collider is Water...
         if (other.gameObject.tag == "Water")
         {
@@ -584,6 +625,21 @@ public class PlayerMover : MonoBehaviour
             // Processing the platform as a proper platform
             ProcessAsPlatform(otherBox, false);
         }
+
+        // IF the other collider is a Passthrough...
+        if (other.gameObject.tag == "Passthrough")
+        {
+            // IF the "Ignore Passthrough" boolean is not set to true...
+            if (!ignorePassthrough)
+            {
+                // Casting to the correct collider type
+                BoxCollider2D otherBox = (BoxCollider2D)other;
+
+                // Processing the platform as a proper platform
+                ProcessAsPlatform(otherBox, false);
+            }
+        }
+        /**/
     }
 
     /// <summary>
@@ -598,6 +654,17 @@ public class PlayerMover : MonoBehaviour
             // Releasing from the platform
             ReleaseFromPlatform();
         }
+
+        // IF the other collider is a Passthrough...
+        if (other.gameObject.tag == "Passthrough")
+        {
+            // Releasing from the passthrough platform
+            ReleaseFromPlatform();
+
+            // Resetting the "Ignore Passthrough" boolean
+            ignorePassthrough = false;
+        }
+        /**/
 
         // IF the other collider is Water...
         if (other.gameObject.tag == "Water")
