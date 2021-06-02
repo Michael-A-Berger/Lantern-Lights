@@ -40,6 +40,7 @@ public class PlayerMover : MonoBehaviour
     private bool inputEnabled = true;
     private bool grounded = false;
     private bool ignorePassthrough = false;
+    private GameObject lastPlatform = null;
 
     // Private Properties (Input)
     private float currentAxisX = 0f;
@@ -500,6 +501,13 @@ public class PlayerMover : MonoBehaviour
         {
             // Grounding the player
             GroundPlayer(closestPoint);
+
+            // IF the function call came from the ENTER function, set the new last platformer reference
+            if (fromEnterFunc)
+            {
+                lastPlatform = platform.gameObject;
+                // Debug.Log("\tplatform id:\t" + lastPlatform.GetInstanceID());
+            }
         }
 
         // IF the process was started from an "Enter" function AND debug is on, spawn the debug prefabs
@@ -575,7 +583,6 @@ public class PlayerMover : MonoBehaviour
                 if (currentMoveVars.landingSound != string.Empty && !audioMng.IsPlaying(currentMoveVars.landingSound))
                     audioMng.PlayAudio(currentMoveVars.landingSound);
             }
-            /**/
         }
 
         // IF the other collider is Water...
@@ -625,21 +632,6 @@ public class PlayerMover : MonoBehaviour
             // Processing the platform as a proper platform
             ProcessAsPlatform(otherBox, false);
         }
-
-        // IF the other collider is a Passthrough...
-        if (other.gameObject.tag == "Passthrough")
-        {
-            // IF the "Ignore Passthrough" boolean is not set to true...
-            if (!ignorePassthrough)
-            {
-                // Casting to the correct collider type
-                BoxCollider2D otherBox = (BoxCollider2D)other;
-
-                // Processing the platform as a proper platform
-                ProcessAsPlatform(otherBox, false);
-            }
-        }
-        /**/
     }
 
     /// <summary>
@@ -658,11 +650,21 @@ public class PlayerMover : MonoBehaviour
         // IF the other collider is a Passthrough...
         if (other.gameObject.tag == "Passthrough")
         {
-            // Releasing from the passthrough platform
-            ReleaseFromPlatform();
+            /* ========================================================
+             * ===== INSPECT WHY PASSTHROUGH PLATFORMS DON'T WORK =====
+             * ========================================================
+             */
+            // Debug.Log("\t" + lastPlatform.GetInstanceID() + " =?= " + other.gameObject.GetInstanceID());
 
-            // Resetting the "Ignore Passthrough" boolean
-            ignorePassthrough = false;
+            // IF the last platform if this current platform...
+            if (lastPlatform.GetInstanceID() == other.gameObject.GetInstanceID())
+            {
+                // Releasing from the passthrough platform
+                ReleaseFromPlatform();
+
+                // Resetting the "Ignore Passthrough" boolean
+                ignorePassthrough = false;
+            }
         }
         /**/
 

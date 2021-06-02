@@ -31,14 +31,24 @@ public class Debug_SceneChange : MonoBehaviour
     private float panelOpacity = 0f;
     [SerializeField]
     private int startSceneNum = 0;
+    [SerializeField]
+    private int sceneCount;
 
     // Start()
     public void Start()
     {
+        // Closing / Opening the window
         if (startWindowOpen)
             ChangeOpacity(1);
         else
             ChangeOpacity(0);
+
+        // Getting the amount of scenes that have been added
+#if UNITY_EDITOR
+        sceneCount = EditorBuildSettings.scenes.Length;
+#else
+        sceneCount = SceneManager.sceneCountInBuildSettings;
+#endif
     }
 
     // Update()
@@ -60,7 +70,7 @@ public class Debug_SceneChange : MonoBehaviour
             {
                 if (num == 0)
                 {
-                    startSceneNum = (startSceneNum + menuInputs.Count - 1) % EditorBuildSettings.scenes.Length;
+                    startSceneNum = (startSceneNum + menuInputs.Count - 1) % sceneCount;
                     FillInOptions();
                 }
                 else
@@ -99,14 +109,14 @@ public class Debug_SceneChange : MonoBehaviour
     private void LoadScene(int index)
     {
         // IF the scene index is too high / low, complain and exit early
-        if (index < 0 && index > EditorBuildSettings.scenes.Length - 1)
+        if (index < 0 && index > sceneCount - 1)
         {
             Debug.LogError("Scene [index] is too low / high!");
             return;
         }
 
         // Loading the indicated scene
-        SceneManager.LoadSceneAsync(EditorBuildSettings.scenes[index].path);
+        SceneManager.LoadSceneAsync(index - 1);
     }
 
     // FillInOptions()
@@ -116,20 +126,24 @@ public class Debug_SceneChange : MonoBehaviour
 
         // Fillling out the first option ("Next" / "First Page")
         listOfScenes += "[" + menuInputs[0] + "] - ";
-        if (startSceneNum + (menuInputs.Count - 1) < EditorBuildSettings.scenes.Length)
+        if (startSceneNum + (menuInputs.Count - 1) < sceneCount)
             listOfScenes += "(Next)\n";
         else
             listOfScenes += "(First Page)\n";
 
         // Cataloguing the scenes available in the menu
         string sceneName = "";
-        for (int num = 0; num + startSceneNum < EditorBuildSettings.scenes.Length && num < (menuInputs.Count - 1); num++)
+        for (int num = 0; num + startSceneNum < sceneCount && num < (menuInputs.Count - 1); num++)
         {
             if (num > 0)
                 listOfScenes += "\n";
             listOfScenes += "[" + menuInputs[num + 1] + "] - ";
+#if UNITY_EDITOR
             sceneName = EditorBuildSettings.scenes[startSceneNum + num].path;
-            listOfScenes += sceneName.Substring(sceneName.LastIndexOf("/") + 1);
+#else
+            sceneName = SceneUtility.GetScenePathByBuildIndex(startSceneNum + num);
+#endif
+            listOfScenes += sceneName.Substring(sceneName.LastIndexOf("/") + 1).Replace(".unity", "");
         }
 
         // Setting the box text

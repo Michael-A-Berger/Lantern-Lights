@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ControlConfig.unity
     guid: c27eb7c9290b58543af9ddc6e011e588
+  - enabled: 1
+    path: Assets/Scenes/test_platforming.unity
+    guid: f438348266f0c684c92829c6d313bac9
   m_configObjects: {}
